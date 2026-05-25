@@ -1,0 +1,222 @@
+/* ============================================================
+   hacker-dash.css — Stile Dashboard NEXUS
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+
+:root {
+    --black:   #000000;
+    --dark:    #050a05;
+    --dark2:   #080f08;
+    --dark3:   #0a140a;
+    --green:   #00ff41;
+    --green2:  #00c832;
+    --green3:  #007a20;
+    --green4:  #003a10;
+    --red:     #ff0040;
+    --orange:  #ff8c00;
+    --cyan:    #00ffff;
+    --text:    #c0ffc0;
+    --muted:   #3a6a3a;
+    --border:  #0a2a0a;
+    --sidebar: 200px;
+    --mono:    'Share Tech Mono', monospace;
+    --vt:      'VT323', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100vh;
+}
+
+#matrix-canvas {
+    position: fixed; inset: 0; z-index: 0; opacity: .06; pointer-events: none;
+}
+
+.hacker-layout {
+    display: flex; min-height: 100vh; position: relative; z-index: 1;
+}
+
+/* ---- SIDEBAR ---- */
+.h-sidebar {
+    width: var(--sidebar);
+    background: var(--dark2);
+    border-right: 1px solid var(--green4);
+    display: flex; flex-direction: column;
+    position: fixed; top: 0; left: 0; bottom: 0;
+    z-index: 100;
+}
+
+.h-logo {
+    padding: 20px 16px;
+    font-family: var(--vt);
+    font-size: 32px;
+    color: var(--green);
+    text-shadow: 0 0 10px var(--green);
+    border-bottom: 1px solid var(--green4);
+    letter-spacing: 2px;
+}
+.logo-bracket { color: var(--muted); }
+
+.h-user {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--green4);
+    display: flex; flex-direction: column; gap: 4px;
+}
+.h-alias { font-size: 12px; color: var(--green); }
+.h-level { font-size: 10px; color: var(--muted); letter-spacing: 2px; }
+
+.h-nav { list-style: none; padding: 8px 0; flex: 1; }
+.h-nav li a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 16px; color: var(--muted);
+    text-decoration: none; font-size: 12px;
+    transition: all .15s; letter-spacing: 1px;
+}
+.h-nav li a span { color: var(--green3); font-size: 10px; }
+.h-nav li a:hover { color: var(--green); background: rgba(0,255,65,.04); }
+.h-nav li a.active { color: var(--green); border-right: 2px solid var(--green); }
+.h-nav li.admin-only a { color: var(--red); }
+.h-nav li.admin-only a:hover { background: rgba(255,0,64,.05); }
+
+.h-logout {
+    display: block; padding: 14px 16px;
+    border-top: 1px solid var(--green4);
+    color: var(--muted); text-decoration: none;
+    font-size: 11px; letter-spacing: 1px;
+    transition: color .15s;
+}
+.h-logout:hover { color: var(--red); }
+
+/* ---- MAIN ---- */
+.h-main {
+    margin-left: var(--sidebar);
+    flex: 1; display: flex; flex-direction: column;
+}
+
+.h-topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 24px;
+    background: var(--dark2); border-bottom: 1px solid var(--green4);
+    position: sticky; top: 0; z-index: 50;
+}
+.h-title { font-size: 14px; color: var(--green); letter-spacing: 2px; }
+.h-status { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.h-status.danger { color: var(--red); }
+
+.blink-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green); display: inline-block;
+    box-shadow: 0 0 6px var(--green);
+    animation: blink 1.5s ease-in-out infinite;
+}
+.blink-dot.red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.2;} }
+
+/* WELCOME BANNER */
+.welcome-banner {
+    margin: 16px 24px 0;
+    padding: 12px 16px;
+    background: rgba(0,255,65,.04);
+    border: 1px solid var(--green4);
+    border-left: 3px solid var(--green);
+    font-size: 12px; color: var(--text);
+}
+.wb-prefix { color: var(--green); margin-right: 8px; }
+
+/* STATS */
+.h-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 12px; padding: 16px 24px;
+}
+.h-stat-card {
+    background: var(--dark2); border: 1px solid var(--green4); border-radius: 2px;
+    padding: 16px; text-align: center;
+    transition: border-color .2s;
+}
+.h-stat-card:hover { border-color: var(--green3); }
+.h-stat-card.alert-card { border-color: rgba(255,140,0,.2); }
+.h-stat-val { font-family: var(--vt); font-size: 40px; color: var(--green); display: block; }
+.h-stat-lbl { font-size: 10px; color: var(--muted); letter-spacing: 2px; }
+
+/* PANELS */
+.h-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 0 24px 24px; }
+.h-panel {
+    background: var(--dark2); border: 1px solid var(--green4); border-radius: 2px;
+}
+.h-panel.full { grid-column: 1/-1; }
+
+.h-panel-title {
+    padding: 12px 16px; border-bottom: 1px solid var(--green4);
+    font-size: 12px; color: var(--green); letter-spacing: 1px;
+}
+
+/* TABLE */
+.h-table {
+    width: 100%; border-collapse: collapse; font-size: 11px;
+}
+.h-table th {
+    padding: 8px 14px; text-align: left;
+    color: var(--muted); font-weight: normal; letter-spacing: 2px;
+    border-bottom: 1px solid var(--green4);
+    background: rgba(0,0,0,.3);
+}
+.h-table td {
+    padding: 9px 14px; border-bottom: 1px solid rgba(0,50,0,.5);
+    color: var(--text);
+}
+.h-table tr:hover td { background: rgba(0,255,65,.02); }
+.h-table.identity-table td { font-size: 11px; }
+.alias-cell { color: var(--green); font-weight: bold; }
+
+/* OP STATUS */
+.op-stato {
+    display: inline-block; padding: 2px 8px; border-radius: 1px;
+    font-size: 10px; letter-spacing: 1px;
+}
+.op-stato.completata { background: rgba(0,255,65,.1);  color: var(--green); }
+.op-stato.pianificata{ background: rgba(255,140,0,.1); color: var(--orange); }
+.op-stato.fallita    { background: rgba(255,0,64,.1);  color: var(--red); }
+
+/* IDENTITY PAGE */
+.identity-notice {
+    margin: 16px 24px 0;
+    padding: 10px 16px;
+    background: rgba(255,0,64,.06);
+    border: 1px solid rgba(255,0,64,.2);
+    font-size: 11px; color: var(--red);
+}
+.identity-row td { vertical-align: middle; }
+.identity-row:hover td { background: rgba(0,255,65,.03) !important; }
+
+/* MISSION BOX */
+.mission-box { padding: 16px; }
+.mission-box p { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+.h-mission-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.h-mission-list li {
+    font-size: 12px; color: var(--muted); padding-left: 18px; position: relative;
+}
+.h-mission-list li::before { content: '[ ]'; position: absolute; left: 0; color: var(--green3); }
+.h-mission-list li.done { color: var(--green); }
+.h-mission-list li.done::before { content: '[✓]'; }
+.h-mission-list li.locked { color: #222; }
+.h-mission-list li a { color: var(--green); text-decoration: none; }
+.h-mission-list li a:hover { text-decoration: underline; }
+
+/* NEXT STEP */
+.next-step-hint {
+    margin: 16px 24px;
+    padding: 14px 16px;
+    border: 1px dashed var(--green3);
+    font-size: 12px; color: var(--muted);
+}
+.next-step-hint span { color: var(--green); margin-right: 8px; }
+.next-step-hint a { color: var(--green); }
+
+/* MONO / SMALL */
+.mono  { font-family: var(--mono); }
+.small { font-size: 10px; }
