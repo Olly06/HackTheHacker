@@ -109,40 +109,7 @@ $history = $_SESSION['terminal_history'] ?? [];
     <?php endif; ?>
 
     <div class="terminal-layout">
-        <!-- PANNELLO SINISTRO: guida query -->
-        <div class="query-guide">
-            <div class="panel-header"><span>Guida Investigativa — Query Suggerite</span></div>
-            <div class="guide-body">
-                <p>Esplora il database per trovare le tracce dell'intrusione.</p>
-
-                <div class="hint-group">
-                    <div class="hint-title">1. Quali tabelle esistono?</div>
-                    <code class="hint-code" onclick="fillQuery(this)">SHOW TABLES;</code>
-                </div>
-                <div class="hint-group">
-                    <div class="hint-title">2. Struttura dei log</div>
-                    <code class="hint-code" onclick="fillQuery(this)">DESCRIBE server_log;</code>
-                </div>
-                <div class="hint-group">
-                    <div class="hint-title">3. Tutti i log del server</div>
-                    <code class="hint-code" onclick="fillQuery(this)">SELECT * FROM server_log ORDER BY timestamp;</code>
-                </div>
-                <div class="hint-group">
-                    <div class="hint-title">4. Solo gli accessi riusciti</div>
-                    <code class="hint-code" onclick="fillQuery(this)">SELECT * FROM server_log WHERE esito = 'successo';</code>
-                </div>
-                <div class="hint-group">
-                    <div class="hint-title">5. IP sospetto</div>
-                    <code class="hint-code" onclick="fillQuery(this)">SELECT * FROM server_log WHERE ip_sorgente = '185.220.101.47';</code>
-                </div>
-                <div class="hint-group highlight-hint">
-                    <div class="hint-title">⭐ Azione critica da cercare</div>
-                    <code class="hint-code" onclick="fillQuery(this)">SELECT * FROM server_log WHERE azione = 'EXFIL';</code>
-                </div>
-            </div>
-        </div>
-
-        <!-- PANNELLO DESTRO: terminale -->
+        <!-- PANNELLO: terminale -->
         <div class="terminal-panel">
             <div class="terminal-titlebar">
                 <span class="t-dot red"></span>
@@ -158,7 +125,7 @@ $history = $_SESSION['terminal_history'] ?? [];
                     Connesso come: <span class="term-user"><?= htmlspecialchars($_SESSION['username']) ?></span><br>
                     Database: <span class="term-db">polizia_db</span><br>
                     <br>
-                    <span class="term-hint">Usa i suggerimenti a sinistra o scrivi la tua query.</span>
+                    <span class="term-hint">Scrivi la tua query SQL.</span>
                 </div>
 
                 <?php if ($query_in): ?>
@@ -215,10 +182,6 @@ $history = $_SESSION['terminal_history'] ?? [];
 </main>
 
 <script>
-function fillQuery(el) {
-    document.getElementById('queryInput').value = el.textContent.trim().replace(/;$/, '');
-    document.getElementById('queryInput').focus();
-}
 // Scroll output in fondo
 const out = document.getElementById('termOutput');
 if (out) out.scrollTop = out.scrollHeight;

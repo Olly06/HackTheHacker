@@ -36,8 +36,8 @@ $rows = $pdo->query("
                     <tr><th>Codice</th><th>Descrizione</th><th>Data</th><th>Stato</th><th>Responsabile</th></tr>
                 </thead>
                 <tbody>
-                <?php foreach ($rows as $r): ?>
-                    <tr>
+                <?php foreach ($rows as $i => $r): ?>
+                    <tr<?= $i >= 50 ? ' class="h-extra-row" style="display:none"' : '' ?>>
                         <td class="mono"><?= htmlspecialchars($r['codice']) ?></td>
                         <td><?= htmlspecialchars($r['descrizione']) ?></td>
                         <td class="mono"><?= htmlspecialchars($r['data_op']) ?></td>
@@ -47,9 +47,22 @@ $rows = $pdo->query("
                 <?php endforeach; ?>
                 </tbody>
             </table>
+            <?php if (count($rows) > 50): ?>
+            <div class="show-more-bar">
+                <button class="btn-show-more" onclick="showMore(this, 'h-extra-row')">
+                    [ MOSTRA ALTRI <?= count($rows) - 50 ?> RECORD ]
+                </button>
+            </div>
+            <?php endif; ?>
         </div>
     </main>
 </div>
 <script src="js/matrix.js"></script>
+<script>
+function showMore(btn, cls) {
+    document.querySelectorAll('.' + cls).forEach(function(r) { r.style.display = ''; });
+    btn.parentElement.style.display = 'none';
+}
+</script>
 </body>
 </html>

@@ -49,8 +49,8 @@ $rows = $pdo->query("
                     </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($rows as $r): ?>
-                    <tr class="<?= $r['stato'] === 'aperto' ? 'row-open' : '' ?>">
+                <?php foreach ($rows as $i => $r): ?>
+                    <tr class="<?= $r['stato'] === 'aperto' ? 'row-open' : '' ?><?= $i >= 50 ? ' m-extra-row' : '' ?>"<?= $i >= 50 ? ' style="display:none"' : '' ?>>
                         <td class="mono"><?= htmlspecialchars($r['codice']) ?></td>
                         <td><?= htmlspecialchars($r['descrizione']) ?></td>
                         <td>
@@ -76,8 +76,21 @@ $rows = $pdo->query("
                 <?php endforeach; ?>
                 </tbody>
             </table>
+            <?php if (count($rows) > 50): ?>
+            <div class="show-more-bar">
+                <button class="btn-show-more" onclick="showMore(this, 'm-extra-row')">
+                    Mostra altri <?= count($rows) - 50 ?> mandati
+                </button>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 </main>
+<script>
+function showMore(btn, cls) {
+    document.querySelectorAll('.' + cls).forEach(function(r) { r.style.display = ''; });
+    btn.parentElement.style.display = 'none';
+}
+</script>
 </body>
 </html>

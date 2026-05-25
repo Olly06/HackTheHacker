@@ -37,7 +37,7 @@ $ops      = $pdo->query("SELECT o.*, u.username FROM h_operazioni o LEFT JOIN h_
         </div>
         <ul class="h-nav">
             <li><a href="dashboard.php" class="active"><span>//</span> Dashboard</a></li>
-            <li><a href="identita.php"><span>//</span> Identità Reali</a></li>
+            <li><a href="identita.php"><span>//</span> Membri</a></li>
             <li><a href="operazioni.php"><span>//</span> Operazioni</a></li>
             <li><a href="drops.php"><span>//</span> File Rubati</a></li>
             <?php if ($livello == 2): ?>
@@ -73,7 +73,7 @@ $ops      = $pdo->query("SELECT o.*, u.username FROM h_operazioni o LEFT JOIN h_
             </div>
             <div class="h-stat-card">
                 <div class="h-stat-val"><?= count($identita) ?></div>
-                <div class="h-stat-lbl">Identità Registrate</div>
+                <div class="h-stat-lbl">Membri</div>
             </div>
             <div class="h-stat-card alert-card">
                 <div class="h-stat-val">⚠</div>

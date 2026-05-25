@@ -81,23 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ⚠ Stai operando con privilegi ROOT. I comandi qui eseguiti sono irreversibili.
         </div>
 
-        <!-- GUIDA COMANDI -->
-        <div class="cmd-guide">
-            <div class="h-panel-title">&gt; Comandi Disponibili</div>
-            <div class="cmd-grid">
-                <div class="cmd-item info" onclick="fillCmd(this)"><code>ls</code><span>Lista tabelle</span></div>
-                <div class="cmd-item info" onclick="fillCmd(this)"><code>whoami</code><span>Utente attivo</span></div>
-                <div class="cmd-item info" onclick="fillCmd(this)"><code>status</code><span>Stato sistema</span></div>
-                <div class="cmd-item info" onclick="fillCmd(this)"><code>help</code><span>Tutti i comandi</span></div>
-                <div class="cmd-item destroy" onclick="fillCmd(this)">
-                    <code>DROP TABLE h_identita</code><span>⚠ Distruggi identità</span>
-                </div>
-                <div class="cmd-item destroy" onclick="fillCmd(this)">
-                    <code>DROP DATABASE hacker_db</code><span>💀 Distruggi tutto</span>
-                </div>
-            </div>
-        </div>
-
         <!-- TERMINALE -->
         <div class="admin-terminal">
             <div class="terminal-titlebar">
@@ -192,10 +175,6 @@ setTimeout(() => {
 
 <script src="js/matrix.js"></script>
 <script>
-function fillCmd(el) {
-    document.getElementById('cmdInput').value = el.querySelector('code').textContent;
-    document.getElementById('cmdInput').focus();
-}
 document.getElementById('adminOutput').scrollTop = 99999;
 </script>
 </body>

@@ -85,6 +85,17 @@
     padding: 10px 16px;
     background: #020802;
 }
+.prompt-line { display: flex; align-items: center; gap: 10px; }
+.prompt-label {
+    font-family: var(--mono); font-size: 13px;
+    color: var(--green); white-space: nowrap; flex-shrink: 0;
+}
+.prompt-label.root-prompt { color: var(--red); }
+.prompt-line input {
+    flex: 1; background: transparent; border: none; outline: none;
+    font-family: var(--mono); font-size: 13px; color: var(--text);
+    caret-color: var(--green);
+}
 .exec-btn {
     background: transparent; border: 1px solid var(--green3);
     color: var(--green); font-family: var(--mono); font-size: 11px;
