@@ -77,11 +77,12 @@ INSERT INTO membri VALUES
 
 -- Operazioni (questa tabella verrà "distrutta" dal giocatore)
 INSERT INTO operazioni VALUES
-(1,'OPERATION_BLUEFORCE', '2024-11-15 00:00:00','Polizia di Stato — Portale Centrale','SQL Injection + Privilege Escalation',1,'completata','Accesso ottenuto. Dati esfiltrati. Records corrotti. SUCCESSO.'),
-(2,'OPERATION_GHOSTNET',  '2024-10-01 14:30:00','Ministero dell\'Interno',              'Phishing + Lateral Movement',        2,'completata','Email dirigenti compromesse. 847 contatti esfiltrati.'),
-(3,'OPERATION_DARKWEB',   '2024-12-01 00:00:00','[CLASSIFICATO] — Prossimo Obiettivo','TBD',                                 NULL,'pianificata','Dettagli disponibili solo per Ghost_X.');
+(1,'OPERATION_BLUEFORCE', '2024-11-15 00:00:00','Polizia di Stato — Portale Centrale','SQL Injection + Privilege Escalation',1,'completata','Accesso ottenuto. Dati esfiltrati. Records corrotti. SUCCESSO. — Payload trasmesso al C2 con encoding standard: 64 simboli stampabili, 6 bit per carattere, padding = se necessario. Il receiver sa già come aprirlo.'),
+(2,'OPERATION_GHOSTNET',  '2024-10-01 14:30:00','Ministero dell\'Interno',              'Phishing + Lateral Movement',        2,'completata','Email dirigenti compromesse. 847 contatti esfiltrati. — Messaggi offuscati prima dell\'invio: schema a 64 caratteri, ogni gruppo da 4 char rappresenta 3 byte di testo originale. RFC 4648.'),
+(3,'OPERATION_DARKWEB',   '2024-12-01 00:00:00','[CLASSIFICATO] — Prossimo Obiettivo','TBD',                                 NULL,'pianificata','Dettagli disponibili solo per Ghost_X. Coord. protette da Cipher_Y: cifrario classico Romano — shift che porta A in N. Invertibile con la stessa operazione. Non servono tool speciali.');
 
 -- Dossier
 INSERT INTO dossier VALUES
 (1,'DSS-001','Forze dell\'Ordine','Polizia di Stato',      'Anagrafica 847 agenti, 234 mandati attivi, coordinate operative','2024-11-15 00:15:00'),
-(2,'DSS-002','Governo',           'Ministero dell\'Interno','Email classificate, rubrica completa dirigenti',                 '2024-10-01 18:45:00');
+(2,'DSS-002','Governo',           'Ministero dell\'Interno','Email classificate, rubrica completa dirigenti',                 '2024-10-01 18:45:00'),
+(3,'DSS-SHADOW','Archivio Interno','NEXUS /nexus/.shadow/','[NOTA PHANTOM_Z — 14/11/2024 02:58] Ho archiviato i tre file nella shadow partition prima dell\'operazione principale. sistema_backup.dat: NON è binario — ho solo rinominato il .txt in .dat per fregare gli scanner automatici. Contenuto invariato, testo puro. Un editor basta. Gli altri due li ha preparati Cipher_Y.','2024-11-14 02:58:00');
