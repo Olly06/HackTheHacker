@@ -1,0 +1,133 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║          POLIZIA DI STATO — DIVISIONE CRIMINI INFORMATICI                  ║
+║                  DOCUMENTO RISERVATO — LIVELLO 3                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+OPERAZIONE: HACK THE HACKER
+DATA BRIEFING: [DA COMPILARE AL MOMENTO DELL'AVVIO]
+ASSEGNATO A:   Detective ______________________
+
+──────────────────────────────────────────────────────────────────────────────
+  SITUAZIONE
+──────────────────────────────────────────────────────────────────────────────
+
+Nella notte tra il 14 e il 15 ottobre un intruso non identificato ha violato
+i sistemi informatici del Portale Sicuro della Polizia di Stato.
+L'accesso è avvenuto da un IP esterno, probabilmente tramite credenziali
+compromesse di un account interno.
+
+I danni accertati:
+  - Alterazione dei dati anagrafici di alcuni agenti
+  - Esfiltrazione di dati sensibili verso un server esterno sconosciuto
+  - Tracce di un'organizzazione hacker denominata "NEXUS"
+
+Il tuo compito: risalire all'identità dei responsabili e neutralizzarli.
+
+──────────────────────────────────────────────────────────────────────────────
+  OBIETTIVI — FASE 1: INDAGINE SUL PORTALE POLIZIA
+──────────────────────────────────────────────────────────────────────────────
+
+URL: http://localhost/HackTheHacker/polizia/
+
+Accedi al portale con le credenziali che ti sono state consegnate.
+Una volta dentro, la tua indagine deve rispondere a queste domande:
+
+  [ ] Chi sono gli agenti interni la cui scheda è stata manomessa?
+  [ ] Cosa rivelano i Report Incidenti riguardo all'intrusione?
+  [ ] I Messaggi Interni contengono indicazioni tecniche utili?
+  [ ] Hai esaminato il codice sorgente delle pagine? A volte chi
+      costruisce sistemi lascia tracce involontarie.
+
+Prima di passare alla fase successiva devi avere in mano
+l'indirizzo IP da cui è partito l'attacco.
+
+──────────────────────────────────────────────────────────────────────────────
+  OBIETTIVI — FASE 2: ANALISI FORENSE — TERMINALE DB
+──────────────────────────────────────────────────────────────────────────────
+
+URL: http://localhost/HackTheHacker/polizia/terminale.php
+
+Hai accesso a un terminale MySQL in sola lettura collegato al database
+del portale. Usa le query SQL per ricostruire la sequenza dell'attacco.
+
+  [ ] Quali tabelle esistono nel database? Esplorale tutte.
+  [ ] La tabella server_log registra ogni accesso al sistema.
+      Studia la sua struttura prima di interrogarla.
+  [ ] Filtra i log per l'IP sospetto che hai trovato nella Fase 1.
+      Quanti tentativi di accesso falliti? E quelli riusciti?
+  [ ] Una specifica azione nei log nasconde la destinazione finale
+      dei dati esfiltrati. Trovala.
+
+Il risultato di quella query ti consegnerà l'URL del server nemico.
+Annotalo: è la porta di ingresso alla Fase 3.
+
+──────────────────────────────────────────────────────────────────────────────
+  OBIETTIVI — FASE 3: INFILTRAZIONE NEL SERVER NEXUS
+──────────────────────────────────────────────────────────────────────────────
+
+URL: [da scoprire nella Fase 2]
+
+Sei ora nel territorio del nemico. Il gruppo NEXUS ha un proprio sistema
+di command-and-control. Per accedere hai bisogno delle loro credenziali —
+cerca bene, i programmatori frettolosi lasciano sempre qualcosa in vista.
+
+Una volta dentro:
+
+  [ ] Identifica i membri attivi del gruppo tramite il registro alias.
+  [ ] Studia il registro delle operazioni: cosa hanno fatto e quando.
+  [ ] Nella sezione File Rubati troverai tre file anomali.
+      Ognuno richiede una tecnica diversa per essere letto:
+        · Uno è solo questione di estensione.
+        · Uno nasconde i dati in una codifica molto comune sul web.
+        · Uno usa una cifratura storica, elementare ma efficace.
+      Il terzo file contiene informazioni CRITICHE per il caso.
+  [ ] Raggiungi la Admin Console con i privilegi necessari.
+      Lì troverai il comando che chiuderà definitivamente il caso.
+
+──────────────────────────────────────────────────────────────────────────────
+  VERIFICA FINALE
+──────────────────────────────────────────────────────────────────────────────
+
+Al termine dell'operazione accedi al modulo di debriefing:
+
+  URL: http://localhost/HackTheHacker/solution/soluzione.php
+
+Inserisci il tuo nickname e le tre prove chiave raccolte durante
+l'indagine. Il sistema verificherà la tua soluzione e registrerà
+il tuo risultato con data e ora nella classifica ufficiale.
+
+Puoi accedervi anche dal pulsante "VERIFICA LA TUA SOLUZIONE"
+che compare nella schermata finale dopo il colpo di grazia.
+
+──────────────────────────────────────────────────────────────────────────────
+  NOTE OPERATIVE
+──────────────────────────────────────────────────────────────────────────────
+
+  · Usa un browser con gli strumenti per sviluppatori aperti (F12).
+    Il codice sorgente delle pagine è parte dell'indagine.
+  · Sul terminale DB sono permesse solo query SELECT, SHOW e DESCRIBE.
+    Nessuna modifica al database della polizia è consentita.
+  · I comandi "distruttivi" nella Admin Console di NEXUS sono simulati:
+    nessun dato reale viene cancellato. Puoi procedere senza timore.
+  · Se ti blocchi, rileggi attentamente i messaggi e i report —
+    gli indizi sono sempre presenti nella pagina in cui ti trovi.
+
+──────────────────────────────────────────────────────────────────────────────
+  REQUISITI TECNICI
+──────────────────────────────────────────────────────────────────────────────
+
+  Server:   XAMPP avviato (Apache + MySQL)
+  Browser:  qualsiasi browser moderno con DevTools
+  Strumenti utili (facoltativi):
+              · Terminale / PowerShell (per decodifiche da riga di comando)
+              · base64decode.org  — decodifica Base64 online
+              · rot13.com         — decodifica ROT13 online
+
+──────────────────────────────────────────────────────────────────────────────
+
+  Buona fortuna, Detective.
+  NEXUS non aspetta.
+
+══════════════════════════════════════════════════════════════════════════════
+  POLIZIA DI STATO — USO INTERNO — VIETATA LA DIVULGAZIONE
+══════════════════════════════════════════════════════════════════════════════

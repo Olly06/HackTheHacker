@@ -5,7 +5,7 @@
 //  query DROP reale viene eseguita sul database.
 // ============================================================
 session_start();
-require_once 'includes/config.php';
+require_once '../hacker/includes/config.php';
 check_session();
 
 // Solo admin (livello 2) può accedere
@@ -64,13 +64,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Admin Console — NEXUS</title>
-    <link rel="stylesheet" href="css/hacker-dash.css">
-    <link rel="stylesheet" href="css/admin-console.css">
+    <link rel="stylesheet" href="../hacker/css/hacker-dash.css">
+    <link rel="stylesheet" href="../hacker/css/admin-console.css">
 </head>
 <body>
 <canvas id="matrix-canvas"></canvas>
 <div class="hacker-layout">
-    <?php include 'includes/h-sidebar.php'; ?>
+    <?php include '../hacker/includes/h-sidebar.php'; ?>
     <main class="h-main">
         <div class="h-topbar">
             <span class="h-title">// Admin Console — ROOT ACCESS //</span>
@@ -141,7 +141,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="go-hacker-names">
             <div class="go-subtitle">&gt; Arrestati:</div>
             <?php
-            // Mostra i nomi reali degli hacker come schermata finale
             try {
                 $final = $pdo->query("SELECT alias, nome_reale, cognome, citta FROM h_identita")->fetchAll();
                 foreach ($final as $f): ?>
@@ -167,14 +166,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <script>
-// Animazione ritardata per effetto drammatico
 setTimeout(() => {
     document.getElementById('gameOverScreen').classList.add('visible');
 }, 1200);
 </script>
 <?php endif; ?>
 
-<script src="js/matrix.js"></script>
+<script src="../hacker/js/matrix.js"></script>
 <script>
 document.getElementById('adminOutput').scrollTop = 99999;
 </script>

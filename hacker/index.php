@@ -1,118 +1,110 @@
 <?php
-// ============================================================
-//  index.php — Login Sito Hacker (Fase 3)
-//  Login normale con credenziali valide — no SQL injection
-// ============================================================
-session_start();
-require_once 'includes/config.php';
-
-if (isset($_SESSION['hacker_id'])) {
-    header('Location: dashboard.php');
-    exit;
-}
-
-$error = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-
-    if ($username === '' || $password === '') {
-        $error = 'INPUT NON VALIDO';
-    } else {
-        try {
-            $pdo  = get_db();
-            $stmt = $pdo->prepare("SELECT * FROM h_utenti WHERE username = ?");
-            $stmt->execute([$username]);
-            $user = $stmt->fetch();
-
-            if ($user && $user['password'] === md5($password)) {
-                session_regenerate_id(true);
-                $_SESSION['hacker_id']     = $user['id'];
-                $_SESSION['hacker_user']   = $user['username'];
-                $_SESSION['hacker_level']  = $user['livello'];
-                $_SESSION['last_activity'] = time();
-                header('Location: dashboard.php');
-                exit;
-            } else {
-                $error = 'AUTENTICAZIONE FALLITA — ACCESSO NEGATO';
-            }
-        } catch (PDOException $e) {
-            $error = 'ERRORE DI SISTEMA';
-        }
-    }
-}
-
-// Il giocatore trova queste credenziali nella tabella h_utenti
-// dopo aver scoperto il server. Le credenziali sono nell'hint del terminale:
-// username: ph4ntom  password: gh0stInTh3M4ch1n3
-$err_param = $_GET['error'] ?? '';
-if ($err_param === 'access_denied') $error = 'ACCESSO NON AUTORIZZATO';
-if ($err_param === 'timeout')       $error = 'SESSIONE SCADUTA — RICONNETTITI';
+// Questo nodo è stato rimosso dalla rete. Il server NEXUS si è spostato.
+http_response_code(404);
 ?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>NEXUS — Accesso Riservato</title>
-    <link rel="stylesheet" href="css/hacker-login.css">
+    <title>NEXUS — Nodo non trovato</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #000;
+            color: #3a6a3a;
+            font-family: 'Share Tech Mono', monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 560px;
+            width: 90%;
+            text-align: center;
+            padding: 40px;
+            border: 1px solid #003a10;
+            background: #050a05;
+        }
+
+        .err-code {
+            font-family: 'VT323', monospace;
+            font-size: 80px;
+            color: #ff0040;
+            text-shadow: 0 0 20px rgba(255,0,64,.4);
+            letter-spacing: 8px;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .err-title {
+            font-size: 12px;
+            letter-spacing: 4px;
+            color: #ff0040;
+            margin-bottom: 32px;
+            opacity: .8;
+        }
+
+        .sep {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #003a10, transparent);
+            margin: 0 auto 28px;
+        }
+
+        .err-msg {
+            font-size: 11px;
+            line-height: 2;
+            color: #2a4a2a;
+        }
+
+        .err-msg .hl { color: #3a6a3a; }
+
+        .err-detail {
+            margin-top: 28px;
+            padding: 14px 16px;
+            background: #020802;
+            border: 1px solid #003a10;
+            border-left: 3px solid #ff0040;
+            text-align: left;
+            font-size: 10px;
+            line-height: 2;
+            color: #2a4a2a;
+        }
+
+        .err-detail .lbl { color: #1a3a1a; }
+        .err-detail .val { color: #3a5a3a; }
+
+        .blink {
+            animation: blink 1s step-start infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
 </head>
 <body>
-<canvas id="matrix-canvas"></canvas>
+<div class="container">
+    <div class="err-code">404</div>
+    <div class="err-title">ERR_NODE_NOT_FOUND</div>
+    <div class="sep"></div>
 
-<div class="login-container">
-    <div class="glitch-logo" data-text="NEXUS">NEXUS</div>
-    <div class="login-tagline">// Sistema di Comando — Accesso Ristretto //</div>
+    <div class="err-msg">
+        <span class="hl">Nodo non raggiungibile.</span><br>
+        Questo indirizzo non è più attivo sulla rete NEXUS.<br>
+        Il server è stato <span class="hl">spostato</span> o è offline.<br><br>
+        Verifica di avere l'indirizzo corretto<br>
+        prima di tentare nuovamente la connessione.
+    </div>
 
-    <div class="login-box">
-        <div class="box-corner tl"></div>
-        <div class="box-corner tr"></div>
-        <div class="box-corner bl"></div>
-        <div class="box-corner br"></div>
-
-        <?php if ($error): ?>
-        <div class="error-msg">
-            <span class="err-icon">✖</span> <?= htmlspecialchars($error) ?>
-        </div>
-        <?php endif; ?>
-
-        <!-- INDIZIO NASCOSTO per il giocatore: credenziali nella struttura HTML -->
-        <!-- ACCESS_CREDENTIAL_HINT: u=ph4ntom | p=gh0stInTh3M4ch1n3 -->
-
-        <form method="POST" autocomplete="off">
-            <div class="field">
-                <label>IDENTIFICATIVO</label>
-                <div class="input-row">
-                    <span class="prompt">&gt;_</span>
-                    <input type="text" name="username" placeholder="alias..." autofocus
-                           value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
-                </div>
-            </div>
-            <div class="field">
-                <label>CHIAVE DI ACCESSO</label>
-                <div class="input-row">
-                    <span class="prompt">&gt;_</span>
-                    <input type="password" name="password" placeholder="••••••••••••••••">
-                </div>
-            </div>
-            <button type="submit" class="btn-enter">
-                <span class="btn-text">CONNETTI AL SERVER</span>
-                <span class="btn-loader" id="loader" style="display:none">AUTENTICAZIONE...</span>
-            </button>
-        </form>
-
-        <div class="login-footer">
-            <span class="blink">■</span> NEXUS v3.7.1 &nbsp;|&nbsp; CONNESSIONE CIFRATA &nbsp;|&nbsp; <span class="blink">■</span>
-        </div>
+    <div class="err-detail">
+        <div><span class="lbl">HOST       </span> <span class="val">nexus-node-01 [OFFLINE]</span></div>
+        <div><span class="lbl">ERRORE     </span> <span class="val">Connection refused — 0x00000003</span></div>
+        <div><span class="lbl">STATO      </span> <span class="val">NODE_RELOCATED</span></div>
+        <div><span class="lbl">SUGGERIMENTO</span> <span class="val">Consultare i log di rete per il nuovo indirizzo.</span></div>
     </div>
 </div>
-
-<script src="js/matrix.js"></script>
-<script>
-document.querySelector('form').addEventListener('submit', function() {
-    document.querySelector('.btn-text').style.display = 'none';
-    document.getElementById('loader').style.display   = 'inline';
-});
-</script>
 </body>
 </html>

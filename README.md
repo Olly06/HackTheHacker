@@ -81,6 +81,8 @@ SOURCE /percorso/HackTheHacker/database/polizia_db.sql;
 SOURCE /percorso/HackTheHacker/database/polizia_dbbulk.sql;
 SOURCE /percorso/HackTheHacker/database/hacker_db.sql;
 SOURCE /percorso/HackTheHacker/database/hacker_dbbulk.sql;
+SOURCE /percorso/HackTheHacker/database/add_soluzioni_table.sql;
+SOURCE /percorso/HackTheHacker/database/update_c2_server.sql;
 ```
 
 ### 3. Configura le connessioni
@@ -93,7 +95,7 @@ define('DB_PASS', '');          // tua password MySQL
 
 ### 4. Avvia i siti
 - **Sito Polizia:** `http://localhost/HackTheHacker/polizia/`
-- **Sito Hacker:**  `http://localhost/HackTheHacker/hacker/`
+- **Sito Hacker:**  `http://localhost/HackTheHacker/n3xu5dr4k7f2x1m8/` *(URL da scoprire tramite il gioco)*
 
 ---
 
@@ -155,7 +157,7 @@ C2_SERVER=http://localhost/HackTheHacker/hacker | Base operativa identificata.
 ---
 
 ### FASE 3 — Infiltrazione NEXUS
-**URL:** `http://localhost/HackTheHacker/hacker/`
+**URL:** `http://localhost/HackTheHacker/n3xu5dr4k7f2x1m8/` *(scoperto nella Fase 2)*
 
 **Credenziali hacker** (trovate nel sorgente HTML della login page):
 ```
@@ -179,6 +181,15 @@ oppure:
 DROP DATABASE hacker_db
 ```
 → **Schermata di vittoria** con i nomi degli arrestati.
+
+Al termine, il giocatore può premere **"VERIFICA LA TUA SOLUZIONE"** per accedere al
+modulo di debriefing (`solution/soluzione.php`) dove inserisce i tre indizi chiave:
+- IP dell'attaccante trovato in `server_log` → `185.220.101.47`
+- Password temporanea da `coordinate.enc` (ROT13) → `Bl@ckH4t_2024!`
+- Comando finale eseguito nella Admin Console
+
+Il risultato (nickname, punteggio, data/ora) viene salvato in `polizia_db.soluzioni_giocatori`
+e compare nella classifica "Hall of Fame" in fondo alla pagina.
 
 ---
 
