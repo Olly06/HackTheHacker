@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../hacker/includes/config.php';
+require_once './includes/config.php';
 check_session();
 
 $key = isset($_POST['f']) ? strval($_POST['f']) : '';

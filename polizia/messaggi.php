@@ -36,11 +36,11 @@ $rows = $pdo->query("SELECT * FROM messaggi_interni ORDER BY data_invio DESC")->
     <?php foreach ($rows as $msg): ?>
         <div class="message-card <?= $msg['letto'] ? '' : 'unread' ?>">
             <div class="msg-header">
-                <span class="msg-from">Da: <strong><?= htmlspecialchars($msg['mittente']) ?></strong></span>
+                <span class="msg-from">Da: <strong><?= htmlspecialchars($msg['mittente']  ?? '') ?></strong></span>
                 <span class="msg-date"><?= date('d/m/Y H:i', strtotime($msg['data_invio'])) ?></span>
             </div>
-            <div class="msg-subject">✉ <?= htmlspecialchars($msg['oggetto']) ?></div>
-            <div class="msg-body"><?= nl2br(htmlspecialchars($msg['corpo'])) ?></div>
+            <div class="msg-subject">✉ <?= htmlspecialchars($msg['oggetto']  ?? '') ?></div>
+            <div class="msg-body"><?= nl2br(htmlspecialchars($msg['corpo'])  ?? '') ?></div>
         </div>
     <?php endforeach; ?>
     </div>

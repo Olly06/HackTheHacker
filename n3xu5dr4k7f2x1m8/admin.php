@@ -5,7 +5,7 @@
 //  query DROP reale viene eseguita sul database.
 // ============================================================
 session_start();
-require_once '../hacker/includes/config.php';
+require_once './includes/config.php';
 check_session();
 
 // Solo admin (livello 2) può accedere
@@ -24,7 +24,7 @@ $valid_commands = [
     'ls'           => "drwxr-x  h_utenti/\ndrwxr-x  h_identita/\ndrwxr-x  h_operazioni/\ndrwxr-x  h_drops/\ndrwxr-x  admin_console/",
     'whoami'       => 'ph4ntom [root@nexus-srv]',
     'status'       => "DATABASE: nexus_db\nSTATUS: ONLINE\nRECORDS: " . $pdo->query("SELECT COUNT(*) FROM h_identita")->fetchColumn() . " identities stored\nBACKUP: DISABLED",
-    'help'         => "Comandi disponibili:\n  ls          — lista tabelle\n  whoami      — utente corrente\n  status      — stato sistema\n  DROP TABLE h_identita   — ELIMINA identità\n  DROP DATABASE hacker_db — DISTRUGGI tutto",
+    'help'         => "Comandi disponibili:\n  ls          — lista tabelle\n  whoami      — utente corrente\n  status      — stato sistema\n  DROP TABLE - Elimina Tabella\n  DROP DATABASE - Elimina Database",
 ];
 
 // Comandi "distruttivi" — simulati, non eseguiti realmente
@@ -64,13 +64,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Admin Console — NEXUS</title>
-    <link rel="stylesheet" href="../hacker/css/hacker-dash.css">
-    <link rel="stylesheet" href="../hacker/css/admin-console.css">
+    <link rel="stylesheet" href="./css/hacker-dash.css">
+    <link rel="stylesheet" href="./css/admin-console.css">
 </head>
 <body>
 <canvas id="matrix-canvas"></canvas>
 <div class="hacker-layout">
-    <?php include '../hacker/includes/h-sidebar.php'; ?>
+    <?php include './includes/h-sidebar.php'; ?>
     <main class="h-main">
         <div class="h-topbar">
             <span class="h-title">// Admin Console — ROOT ACCESS //</span>
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="go-subtitle">&gt; Arrestati:</div>
             <?php
             try {
-                $final = $pdo->query("SELECT alias, nome_reale, cognome, citta FROM h_identita")->fetchAll();
+                $final = $pdo->query("SELECT alias, nome_reale, cognome, citta FROM h_identita WHERE id <= 4")->fetchAll();
                 foreach ($final as $f): ?>
                 <div class="arrested-card">
                     <span class="arr-alias"><?= htmlspecialchars($f['alias']) ?></span>
@@ -172,7 +172,7 @@ setTimeout(() => {
 </script>
 <?php endif; ?>
 
-<script src="../hacker/js/matrix.js"></script>
+<script src="./js/matrix.js"></script>
 <script>
 document.getElementById('adminOutput').scrollTop = 99999;
 </script>

@@ -17,7 +17,7 @@ $alias   = $_SESSION['hacker_user'] ?? '???';
         <li><a href="identita.php"   class="<?= $current==='identita.php'   ?'active':'' ?>"><span>//</span> Membri</a></li>
         <li><a href="operazioni.php" class="<?= $current==='operazioni.php' ?'active':'' ?>"><span>//</span> Operazioni</a></li>
         <li><a href="drops.php"      class="<?= $current==='drops.php'      ?'active':'' ?>"><span>//</span> File Rubati</a></li>
-        <?php if ($livello == 2): ?>
+<?php if ($livello == 2): ?>
         <li class="admin-only"><a href="admin.php" class="<?= $current==='admin.php' ?'active':'' ?>"><span>//</span> ⚠ Admin Console</a></li>
         <?php endif; ?>
     </ul>

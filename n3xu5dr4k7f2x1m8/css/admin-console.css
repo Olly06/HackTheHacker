@@ -118,9 +118,14 @@
 
 .go-content {
     max-width: 600px; width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
     text-align: center;
     animation: goSlideIn .6s ease both;
+    padding-right: 4px;
 }
+.go-content::-webkit-scrollbar { width: 4px; }
+.go-content::-webkit-scrollbar-thumb { background: var(--green4); border-radius: 2px; }
 @keyframes goSlideIn {
     from { transform: translateY(40px); opacity: 0; }
     to   { transform: none; opacity: 1; }

@@ -54,15 +54,15 @@ $rows = $pdo->query("
     ?>
         <div class="<?= $cls ?>">
             <div class="report-header">
-                <span class="report-title"><?= htmlspecialchars($r['titolo']) ?></span>
+                <span class="report-title"><?= htmlspecialchars($r['titolo']  ?? '') ?></span>
                 <span class="report-gravita <?= $r['gravita'] ?>"><?= strtoupper($r['gravita']) ?></span>
             </div>
             <div class="report-meta">
                 <span>📅 <?= date('d/m/Y H:i', strtotime($r['data_report'])) ?></span>
-                <span>✍ <?= htmlspecialchars($r['nome'] . ' ' . $r['cognome']) ?></span>
+                <span>✍ <?= htmlspecialchars($r['nome'] . ' ' . $r['cognome']  ?? '') ?></span>
             </div>
             <div class="report-body">
-                <?= nl2br(htmlspecialchars($r['contenuto'])) ?>
+                <?= nl2br(htmlspecialchars($r['contenuto'])  ?? '') ?>
             </div>
         </div>
     <?php endforeach; ?>

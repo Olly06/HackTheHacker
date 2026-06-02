@@ -3,7 +3,7 @@
 //  dashboard.php — Dashboard Hacker (Fase 3)
 // ============================================================
 session_start();
-require_once '../hacker/includes/config.php';
+require_once './includes/config.php';
 check_session();
 
 $pdo      = get_db();
@@ -20,7 +20,7 @@ $ops      = $pdo->query("SELECT o.*, u.username FROM h_operazioni o LEFT JOIN h_
 <head>
     <meta charset="UTF-8">
     <title>NEXUS — Command Center</title>
-    <link rel="stylesheet" href="../hacker/css/hacker-dash.css">
+    <link rel="stylesheet" href="./css/hacker-dash.css">
 </head>
 <body>
 <canvas id="matrix-canvas"></canvas>
@@ -117,6 +117,6 @@ $ops      = $pdo->query("SELECT o.*, u.username FROM h_operazioni o LEFT JOIN h_
         </div>
     </main>
 </div>
-<script src="../hacker/js/matrix.js"></script>
+<script src="./js/matrix.js"></script>
 </body>
 </html>

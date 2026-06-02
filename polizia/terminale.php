@@ -99,9 +99,8 @@ $history = $_SESSION['terminal_history'] ?? [];
                 }
                 ?>
             </div>
-            <p class="url-hint">Raggiungere l'URL indicato per infiltrarsi nel server hacker.<br>
-            <strong>Porta predefinita del sito hacker: :8081/hacker/</strong></p>
-            <a href="<?= htmlspecialchars('http://localhost:8081/hacker/') ?>" class="btn-proceed" target="_blank">
+            <p class="url-hint">Raggiungere l'URL indicato per infiltrarsi nel server hacker.</p>
+            <a href="<?= htmlspecialchars('http://localhost/HackTheHacker/n3xu5dr4k7f2x1m8/') ?>" class="btn-proceed" target="_blank">
                 ▶ PROCEDI ALLA FASE 3
             </a>
         </div>

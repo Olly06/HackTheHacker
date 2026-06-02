@@ -51,8 +51,8 @@ $rows = $pdo->query("
                 <tbody>
                 <?php foreach ($rows as $i => $r): ?>
                     <tr class="<?= $r['stato'] === 'aperto' ? 'row-open' : '' ?><?= $i >= 50 ? ' m-extra-row' : '' ?>"<?= $i >= 50 ? ' style="display:none"' : '' ?>>
-                        <td class="mono"><?= htmlspecialchars($r['codice']) ?></td>
-                        <td><?= htmlspecialchars($r['descrizione']) ?></td>
+                        <td class="mono"><?= htmlspecialchars($r['codice']  ?? '') ?></td>
+                        <td><?= htmlspecialchars($r['descrizione'] ?? '') ?></td>
                         <td>
                             <?php
                             $cls = match($r['stato']) {
@@ -63,7 +63,7 @@ $rows = $pdo->query("
                             ?>
                             <span class="<?= $cls ?>"><?= strtoupper($r['stato']) ?></span>
                         </td>
-                        <td><?= htmlspecialchars($r['data_apertura']) ?></td>
+                        <td><?= htmlspecialchars($r['data_apertura']  ?? '') ?></td>
                         <td>
                             <?php if ($r['matricola']): ?>
                                 <span class="mono"><?= htmlspecialchars($r['matricola']) ?></span>

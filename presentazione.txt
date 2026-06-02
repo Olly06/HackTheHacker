@@ -1,0 +1,245 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║         HACK THE HACKER — PRESENTAZIONE DI GRUPPO                         ║
+║         Progetto GPOI — Sicurezza Informatica                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+  Componenti del gruppo:
+    · Orlando Lepuri — Backend
+    · Thomas Odolini — Frontend
+    · Alvis Dervishi — Storia e Puzzle
+
+  Durata stimata presentazione: 15–20 minuti + demo
+
+══════════════════════════════════════════════════════════════════════════════
+  INTRODUZIONE (tutti insieme — 2 min)
+══════════════════════════════════════════════════════════════════════════════
+
+  Il progetto è un gioco investigativo web in tre fasi ambientato in uno
+  scenario di cybercrime realistico. Il giocatore interpreta un detective
+  informatico che deve infiltrarsi nel server di un gruppo hacker per
+  smantellarlo.
+
+  Tecnologie usate:
+    · PHP 8 + PDO (backend)
+    · MySQL 8 — due database separati (polizia_db / hacker_db)
+    · HTML5 + CSS3 + JavaScript vanilla (frontend)
+    · XAMPP come ambiente di sviluppo locale
+
+  Struttura del sito:
+    /polizia/              → portale della Polizia di Stato (Fase 1 + 2)
+    /n3xu5dr4k7f2x1m8/    → server segreto del gruppo NEXUS (Fase 3)
+    /solution/             → verifica finale e classifica
+    /database/             → script SQL per l'installazione
+
+══════════════════════════════════════════════════════════════════════════════
+  PARTE 1 — BACKEND (Orlando)
+══════════════════════════════════════════════════════════════════════════════
+
+  COSA HO FATTO
+  ─────────────
+  Mi sono occupato di tutta la logica server-side e della struttura
+  dei database.
+
+  DATABASE
+  ─────────
+  · Progettato due database distinti con schemi separati:
+
+    polizia_db — 9 tabelle:
+      utenti, poliziotti, mandati, report_incidenti, log_accessi,
+      parametri_sistema, messaggi_interni, server_log, soluzioni_giocatori
+
+    hacker_db — 6 tabelle:
+      h_utenti, h_identita, h_operazioni, h_drops, h_log, dossier
+
+  · Popolati con dati realistici: ~50 utenti, ~200 poliziotti, ~1000
+    mandati, ~1000 messaggi, ~1000 log per database (file bulk unificati)
+
+  · Il database della polizia contiene volutamente tracce dell'attacco
+    (log corrotti, record modificati, riga EXFIL) — sono parte del puzzle.
+
+  AUTENTICAZIONE
+  ───────────────
+  · Portale Polizia: login SICURO con prepared statements PDO
+      → protegge da SQL Injection
+      → sessione con timeout (30 min), rigenerazione ID al login
+
+  · Server NEXUS: login VOLUTAMENTE VULNERABILE (by design)
+      → la query non usa prepared statements
+      → il giocatore deve accorgersene ispezionando il sorgente
+
+  LOGICA DI GIOCO
+  ────────────────
+  · Terminale DB (polizia/terminale.php):
+      → esegue query reali su polizia_db in sola lettura
+      → whitelist di comandi (SELECT, SHOW, DESCRIBE)
+      → regex pattern-matching per rilevare la query vincente
+      → sblocca la Fase 3 se il giocatore trova la riga EXFIL
+
+  · Admin Console (n3xu5dr4k7f2x1m8/admin.php):
+      → comandi DROP simulati (non eseguiti realmente sul DB)
+      → accesso limitato al livello 2 (admin)
+      → trigger della schermata finale di vittoria
+
+  · Verifica finale (solution/soluzione.php):
+      → confronto delle 3 risposte con le costanti corrette
+      → punteggio 0-3, salvataggio in soluzioni_giocatori
+      → classifica top-10 in tempo reale
+
+  PUNTI DA SOTTOLINEARE
+  ──────────────────────
+  → Contrasto intenzionale tra login sicuro (polizia) e insicuro (hacker)
+    — dimostra concretamente la differenza tra prepared statements e
+    concatenazione diretta di stringhe SQL.
+  → Nessun DROP reale viene mai eseguito: la simulazione protegge i dati
+    ma restituisce al giocatore l'esperienza di "aver distrutto il DB".
+
+══════════════════════════════════════════════════════════════════════════════
+  PARTE 2 — FRONTEND (Thomas)
+══════════════════════════════════════════════════════════════════════════════
+
+  COSA HO FATTO
+  ─────────────
+  Mi sono occupato di tutta l'interfaccia grafica, i CSS e i comportamenti
+  JavaScript.
+
+  DOPPIA IDENTITÀ VISIVA
+  ───────────────────────
+  Il progetto ha due temi grafici opposti e riconoscibili:
+
+  POLIZIA — stile istituzionale formale
+    · Palette: blu navy scuro, oro, bianco
+    · Effetto scanlines (righe CRT)
+    · Font monospace per i dati tecnici
+    · Tabelle ordinate, badge classificazione, sidebar navigazione
+    · File: login.css, dashboard.css, terminal.css
+
+  NEXUS (hacker) — stile dark/cyberpunk
+    · Palette: nero assoluto, verde matrix, rosso pericolo
+    · Animazione Matrix (pioggia di caratteri in canvas)
+    · Effetto glitch sui titoli con pseudoelementi CSS
+    · Terminale stile shell Unix
+    · File: hacker-login.css, hacker-dash.css, admin-console.css
+
+  COMPONENTI PRINCIPALI
+  ──────────────────────
+  · matrix.js — animazione canvas con caratteri casuali in caduta
+  · Victory overlay (terminal.css) — modale full-screen con fadeIn
+    che appare quando il giocatore trova la query vincente
+  · Game over overlay (admin-console.css) — schermata finale con
+    animazione glitch sul testo "MISSIONE COMPIUTA", lista arrestati
+    e pulsanti di navigazione con scroll interno (max-height: 90vh)
+  · Sidebar dinamica su entrambi i siti con stato "attivo" calcolato
+    dal basename della pagina corrente
+  · Selector limite righe (50/100/200/500) in operazioni.php e drops.php
+
+  PUNTI DA SOTTOLINEARE
+  ──────────────────────
+  → Il design non è decorativo: ogni scelta visiva comunica il contesto
+    (polizia = fiducia e ordine / hacker = pericolo e caos).
+  → L'effetto glitch è realizzato in puro CSS con @keyframes e
+    clip-rect su ::before — zero librerie esterne.
+  → L'animazione Matrix usa solo Canvas API nativa, nessun framework.
+
+══════════════════════════════════════════════════════════════════════════════
+  PARTE 3 — STORIA E PUZZLE (Alvis)
+══════════════════════════════════════════════════════════════════════════════
+
+  COSA HO FATTO
+  ─────────────
+  Mi sono occupato della narrativa del gioco, della progettazione degli
+  enigmi e del contenuto dei file segreti.
+
+  LA STORIA
+  ──────────
+  Nella notte del 14-15 novembre 2024 il gruppo hacker NEXUS viola il
+  portale della Polizia tramite SQL Injection. Corrompe dati, elimina
+  record e esfilttra 2.3 GB di materiale riservato.
+  Il giocatore è il detective incaricato di ripercorrere l'attacco e
+  smantellare il gruppo partendo dai log rimasti nel sistema.
+
+  PERSONAGGI CREATI
+  ──────────────────
+  · Ghost_X   — Davide Marini,   Milano   (Leader & Strategist)
+  · Phantom_Z — Luca Esposito,   Napoli   (Penetration Tester)
+  · Cipher_Y  — Elena Russo,     Roma     (Malware Developer)
+  · Vector_K  — Francesco Bruno, Torino   (Social Engineer)
+
+  STRUTTURA DEGLI ENIGMI (3 fasi progressive)
+  ─────────────────────────────────────────────
+
+  FASE 1 — Osservazione
+    · Login: le credenziali sono nel codice sorgente HTML in chiaro
+      → insegna l'abitudine di ispezionare il sorgente (F12)
+    · Report incidenti: commento HTML nascosto indica la tabella chiave
+    · Anagrafica: record con dati "[DATI CORROTTI]" e stato "corrotto"
+      → narrativa dell'attacco visibile direttamente
+
+  FASE 2 — SQL Forense
+    · Il giocatore deve costruire da solo le query per esplorare il DB
+    · La query chiave è:  SELECT * FROM server_log WHERE azione = 'EXFIL'
+    · La colonna "note" di quella riga contiene la stringa C2_SERVER
+      con l'URL del server hacker — sblocca la Fase 3
+
+  FASE 3 — Decodifica e infiltrazione
+    · sistema_backup.dat — file .txt rinominato .dat per ingannare gli
+      scanner: basta aprirlo con un editor di testo
+    · msg_cifrato.b64    — messaggio in Base64 (RFC 4648): decodificabile
+      su base64decode.org o con terminale
+    · coordinate.enc     — cifrato con ROT13 (shift Caesar A→N):
+      contiene la password del server e le coordinate della riunione
+
+  INDIZI NASCOSTI NEI DATI
+  ─────────────────────────
+  · Note nelle operazioni hacker contengono hint sulla codifica usata
+    ("64 simboli stampabili", "RFC 4648", "shift che porta A in N")
+  · Il dossier DSS-SHADOW nella tabella dossier svela l'esistenza dei
+    tre file prima che il giocatore li trovi nella partizione shadow
+  · Il log_accessi della polizia racconta l'intera sequenza dell'attacco
+    riga per riga — chi vuole approfondire trova tutto lì
+
+  PUNTI DA SOTTOLINEARE
+  ──────────────────────
+  → Ogni enigma insegna un concetto reale: ispezione del sorgente,
+    query SQL, Base64, cifrario di Cesare, analisi dei log.
+  → La difficoltà è calibrata: da semplice osservazione (Fase 1)
+    a conoscenze tecniche di base (Fase 2-3).
+  → Nessun enigma è arbitrario — ogni indizio ha una spiegazione
+    logica nel contesto della storia.
+
+══════════════════════════════════════════════════════════════════════════════
+  DEMO LIVE (tutti insieme — 5 min)
+══════════════════════════════════════════════════════════════════════════════
+
+  Sequenza consigliata per la demo:
+
+  1. Apri http://localhost/HackTheHacker/polizia/
+     → mostra la pagina di login (tema istituzionale)
+     → fai il login con le credenziali nel sorgente (F12)
+
+  2. Mostra la Dashboard e il Report Incidenti
+     → fai vedere il commento nascosto nel sorgente del report
+
+  3. Vai al Terminale DB
+     → lancia: SHOW TABLES
+     → lancia: SELECT * FROM server_log WHERE azione = 'EXFIL'
+     → appare il victory overlay con l'URL del server NEXUS
+
+  4. Apri l'URL del server NEXUS
+     → mostra il login dark con la Matrix
+     → fai vedere il commento con le credenziali nel sorgente
+     → esegui il login
+
+  5. Vai su File Rubati → scroll in fondo → scarica coordinate.enc
+     → mostra il file cifrato → decodificalo su rot13.com
+     → mostra la password
+
+  6. Apri Admin Console → digita help → digita DROP DATABASE hacker_db
+     → schermata finale "MISSIONE COMPIUTA" con gli arrestati
+
+  7. Vai su solution/soluzione.php
+     → inserisci le tre prove → mostra il punteggio 3/3
+
+
+══════════════════════════════════════════════════════════════════════════════
+  POLIZIA DI STATO — PROGETTO GPOI — SICUREZZA INFORMATICA
+══════════════════════════════════════════════════════════════════════════════

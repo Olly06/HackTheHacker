@@ -3,7 +3,7 @@
 //  identita.php — Identità Reali degli Hacker
 // ============================================================
 session_start();
-require_once '../hacker/includes/config.php';
+require_once './includes/config.php';
 check_session();
 
 $pdo  = get_db();
@@ -14,12 +14,12 @@ $rows = $pdo->query("SELECT * FROM h_identita ORDER BY id")->fetchAll();
 <head>
     <meta charset="UTF-8">
     <title>Alias Membri — NEXUS</title>
-    <link rel="stylesheet" href="../hacker/css/hacker-dash.css">
+    <link rel="stylesheet" href="./css/hacker-dash.css">
 </head>
 <body>
 <canvas id="matrix-canvas"></canvas>
 <div class="hacker-layout">
-    <?php include '../hacker/includes/h-sidebar.php'; ?>
+    <?php include './includes/h-sidebar.php'; ?>
     <main class="h-main">
         <div class="h-topbar">
             <span class="h-title">// Alias Membri //</span>
@@ -52,6 +52,6 @@ $rows = $pdo->query("SELECT * FROM h_identita ORDER BY id")->fetchAll();
         </div>
     </main>
 </div>
-<script src="../hacker/js/matrix.js"></script>
+<script src="./js/matrix.js"></script>
 </body>
 </html>

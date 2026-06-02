@@ -3,7 +3,7 @@
 //  index.php — Login Sito Hacker (Fase 3)
 // ============================================================
 session_start();
-require_once '../hacker/includes/config.php';
+require_once './includes/config.php';
 
 if (isset($_SESSION['hacker_id'])) {
     header('Location: dashboard.php');
@@ -54,7 +54,7 @@ if ($err_param === 'timeout')       $error = 'SESSIONE SCADUTA — RICONNETTITI'
 <head>
     <meta charset="UTF-8">
     <title>NEXUS — Accesso Riservato</title>
-    <link rel="stylesheet" href="../hacker/css/hacker-login.css">
+    <link rel="stylesheet" href="./css/hacker-login.css">
 </head>
 <body>
 <canvas id="matrix-canvas"></canvas>
@@ -106,7 +106,7 @@ if ($err_param === 'timeout')       $error = 'SESSIONE SCADUTA — RICONNETTITI'
     </div>
 </div>
 
-<script src="../hacker/js/matrix.js"></script>
+<script src="./js/matrix.js"></script>
 <script>
 document.querySelector('form').addEventListener('submit', function() {
     document.querySelector('.btn-text').style.display = 'none';
